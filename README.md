@@ -2,7 +2,7 @@
 
 ## whatami
 
-this project is a GraphQL server implemented with Apollo Server and TypeScript. It provides a set of resolvers to interact with a mock database and fetches data from an external API.
+this project is a GraphQL server implemented with Apollo Server and TypeScript. it provides a set of resolvers to interact with a mock database and fetches data from an external API.
 
 basically, a graphql api for finding cool tunes 🥁
 
@@ -16,7 +16,7 @@ basically, a graphql api for finding cool tunes 🥁
 
 ## installation
 
-to clone and run this application, you'll need Git and Docker installed on your computer. From your command line:
+to clone and run this application, you'll need Git and Docker installed on your computer. from your command line:
 
 ```bash
 # Clone this repository
@@ -48,4 +48,6 @@ this will run the tests with Jest. i'd have liked to write more tests, i might s
 
 - you'll also need to generate a JWT for the Authorization value in Apollo Studio, there's some code you can uncomment in `index.ts` to make one - this isn't how i'd do things in the Very Real World but it works for the use case
 
-- head over to `localhost/4000` to play around
+- head over to `localhost/4000` to play around & please let me know what you think, there is plenty (plenty) of room for improvement but i had a ton of fun making this. 
+
+- my 
