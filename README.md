@@ -27,10 +27,10 @@ $ git clone https://github.com/d11ln/found-you
 $ cd found-you
 
 # Build the Docker image
-$ docker build -t <image-name> .
+$ docker build -t found-you .
 
 # Run the Docker container
-$ docker run -p 4000:4000 <image-name>
+$ docker run -p 4000:4000 found-you
 
 testing
 
