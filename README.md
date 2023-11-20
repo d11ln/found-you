@@ -31,12 +31,12 @@ $ docker build -t <image-name> .
 # Run the Docker container
 $ docker run -p 4000:4000 <image-name>
 
-Testing
+testing
 
-To run the tests, you can use the following command:
+to run the tests, you can use the following command:
 $ npm test
 
-This will run the tests with Jest.
+this will run the tests with Jest. i'd have liked to write more tests, i might still
 
 ```
 
