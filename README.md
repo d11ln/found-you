@@ -8,11 +8,12 @@ basically, a graphql api for finding cool tunes 🥁
 
 ## features
 
-- *graphQL schema and resolvers*: the server uses a GraphQL schema to define the API and resolvers to handle the API operations.
-- *error handling*: the server handles errors properly and returns appropriate status codes.
-- *typeScript*: the server is written in TypeScript for type safety and clear type definitions.
-- *code organization*: The code is organized following best practices, making it easy to read and maintain.
-- *tests*: The server includes a set of tests to verify its functionality.
+- *graphQL and apollo server*: the project uses a GraphQL schema to define the API and resolvers to handle the API operations and makes use of apollo server 4.
+- *error handling*: where possible i tried to handle errors elegantly but this is something i'd have liked to refine a bit more.
+- *typeScript*: the project is written in TypeScript for type safety and clear type definitions.
+- *authentication*: authentication is handled with JSON Web Token to ensure only authorised users can query the data.
+- *code organization*: the code is mostly organized following best practices, making it easy to read and maintain. there is definitely some refactoring that could be done, for example separating the server logic into its own file.
+- *tests*: the project includes the beginnings of a set of tests to verify its functionality - i'd have liked to write more tests and might even do just that when i have some time.
 
 ## installation
 
@@ -36,7 +37,7 @@ testing
 to run the tests, you can use the following command:
 $ npm test
 
-this will run the tests with Jest. i'd have liked to write more tests, i might still
+this will run the tests with Jest. 
 
 ```
 
