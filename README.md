@@ -43,12 +43,12 @@ this will run the tests with Jest.
 
 ## minor things
 
-- you'll need to copy `.example.env` to `.env` and populate it with:
-    -- API key for ARCCloud, which you can obtain by signing up for an account,
-    -- JWT Secret in the format `Bearer very-long-secure-secret-key` (please provide your own)
+* you'll need to copy `.example.env` to `.env` and populate it with:
+- API key for ARCCloud, which you can obtain by signing up for an account,
+- JWT Secret in the format `Bearer very-long-secure-secret-key` (please provide your own)
 
-- you'll also need to generate a JWT for the Authorization value in Apollo Studio, there's some code you can uncomment in `index.ts` to make one - this isn't how i'd do things in the Very Real World but it works for the use case
+* you'll also need to generate a JWT for the Authorization value in Apollo Studio, there's some code you can uncomment in `index.ts` to make one - this isn't how i'd do things in the Very Real World but it works for the use case
 
-- head over to `localhost/4000` to play around & please let me know what you think, there is plenty (plenty) of room for improvement but i had a ton of fun making this. 
+* head over to `localhost/4000` to play around & please let me know what you think, there is plenty (plenty) of room for improvement but i had a ton of fun making this. 
 
-- my favourite track while building this: [The Arc of Tension, Oliver Koletzki](https://youtu.be/XOoCxv7qWf4?si=XScbYi0I6tfzB-6p)
+* my favourite track while building this: [The Arc of Tension, Oliver Koletzki](https://youtu.be/XOoCxv7qWf4?si=XScbYi0I6tfzB-6p)
