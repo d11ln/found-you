@@ -1,22 +1,22 @@
-# found you
+# 🎹 found you
 
-## Description
+## whatami
 
-This project is a GraphQL server implemented with Apollo Server and TypeScript. It provides a set of resolvers to interact with a mock database.
+this project is a GraphQL server implemented with Apollo Server and TypeScript. It provides a set of resolvers to interact with a mock database.
 
-Basically, a graphql api for finding cool tunes 🥁
+basically, a graphql api for finding cool tunes 🥁
 
-## Features
+## features
 
-- GraphQL schema and resolvers: The server uses a GraphQL schema to define the API and resolvers to handle the API operations.
-- Error handling: The server handles errors properly and returns appropriate status codes.
-- TypeScript: The server is written in TypeScript for type safety and clear type definitions.
-- Code organization: The code is organized following best practices, making it easy to read and maintain.
-- Tests: The server includes a set of tests to verify its functionality.
+- graphQL schema and resolvers: The server uses a GraphQL schema to define the API and resolvers to handle the API operations.
+- error handling: The server handles errors properly and returns appropriate status codes.
+- typeScript: The server is written in TypeScript for type safety and clear type definitions.
+- code organization: The code is organized following best practices, making it easy to read and maintain.
+- tests: The server includes a set of tests to verify its functionality.
 
-## Installation
+## installation
 
-To clone and run this application, you'll need Git and Docker installed on your computer. From your command line:
+to clone and run this application, you'll need Git and Docker installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
@@ -40,3 +40,12 @@ This will run the tests with Jest.
 
 ```
 
+## minor things
+
+- you'll need to copy `.example.env` to `.env` and populate it with:
+-- API key for ARCCloud, which you can obtain by signing up for an account,
+-- JWT Secret in the format `Bearer very-long-secure-secret-key` (please provide your own)
+
+- you'll also need to generate a JWT for the Authorization value in Apollo Studio, there's some code you can uncomment in `index.ts` to make one - this isn't how i'd do things in the Very Real World but it works for the use case
+
+- head over to `localhost/4000` to play around
