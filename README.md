@@ -44,8 +44,8 @@ this will run the tests with Jest.
 ## minor things
 
 * you'll need to copy `.example.env` to `.env` and populate it with:
-- API key for ARCCloud, which you can obtain by signing up for an account,
-- JWT Secret in the format `Bearer very-long-secure-secret-key` (please provide your own)
+    1. API key for ARCCloud, which you can obtain by signing up for an account,
+    2. JWT Secret in the format `Bearer very-long-secure-secret-key` (please provide your own)
 
 * you'll also need to generate a JWT for the Authorization value in Apollo Studio, there's some code you can uncomment in `index.ts` to make one - this isn't how i'd do things in the Very Real World but it works for the use case
 
