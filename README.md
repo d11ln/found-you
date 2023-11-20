@@ -51,4 +51,4 @@ this will run the tests with Jest.
 
 - head over to `localhost/4000` to play around & please let me know what you think, there is plenty (plenty) of room for improvement but i had a ton of fun making this. 
 
-- my 
+- my favourite track while building this: [The Arc of Tension, Oliver Koletzki](https://youtu.be/XOoCxv7qWf4?si=XScbYi0I6tfzB-6p)
