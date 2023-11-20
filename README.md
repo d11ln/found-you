@@ -2,17 +2,17 @@
 
 ## whatami
 
-this project is a GraphQL server implemented with Apollo Server and TypeScript. It provides a set of resolvers to interact with a mock database.
+this project is a GraphQL server implemented with Apollo Server and TypeScript. It provides a set of resolvers to interact with a mock database and fetches data from an external API.
 
 basically, a graphql api for finding cool tunes 🥁
 
 ## features
 
-- graphQL schema and resolvers: The server uses a GraphQL schema to define the API and resolvers to handle the API operations.
-- error handling: The server handles errors properly and returns appropriate status codes.
-- typeScript: The server is written in TypeScript for type safety and clear type definitions.
-- code organization: The code is organized following best practices, making it easy to read and maintain.
-- tests: The server includes a set of tests to verify its functionality.
+- *graphQL schema and resolvers*: the server uses a GraphQL schema to define the API and resolvers to handle the API operations.
+- *error handling*: the server handles errors properly and returns appropriate status codes.
+- *typeScript*: the server is written in TypeScript for type safety and clear type definitions.
+- *code organization*: The code is organized following best practices, making it easy to read and maintain.
+- *tests*: The server includes a set of tests to verify its functionality.
 
 ## installation
 
