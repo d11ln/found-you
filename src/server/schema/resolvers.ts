@@ -1,4 +1,3 @@
-import { Context } from '@apollo/client';
 import { GraphQLError } from 'graphql';
 import UserContext from './typeDef';
 
@@ -23,19 +22,21 @@ interface TracksAPI {
   getTrack(name: string, artist_name: string): Promise<Track>
 }
 
+interface DataSources {
+  dataSources: {
+    tracksAPI: TracksAPI
+  } 
+}
+
 interface UserContext {
   user: User
-  dataSources: {
-    tracksAPI: TracksAPI,
-    user: User
-  }
 }
 
 
 const resolvers = {
   Query: {
-    getTrackByName: async (_: any, { name, artist_name }: Record<string, string>, { dataSources }: UserContext): Promise<Track | undefined> => {
-      const track = mockDB.find(t => t.name === name && t.artist_name === artist_name);
+    getTrackByName: async (_: void, { name, artist_name }: Record<string, string>, { dataSources }: DataSources): Promise<Track | undefined> => {
+      const track: Track = mockDB.find(t => t.name === name && t.artist_name === artist_name);
       // check if track exists in mockDB
       if (!track) {
         const fetchedTrack = await dataSources.tracksAPI.getTrack(name, artist_name);
@@ -51,10 +52,10 @@ const resolvers = {
       return track;
     },
     getAllTracks: async (): Promise<Track[]> => {
-      return mockDB;
+      return Promise.resolve(mockDB);
     },
-    getTrackById: async (_: any, { internal_id }: { internal_id: string }, { mockDB }: Context): Promise<Track | undefined> => {
-      const track = mockDB.find(t => t.internal_id === internal_id);
+    getTrackById: async (_: void, { id }: { id: string }): Promise<Track | undefined> => {
+      const track: Track = mockDB.find(t => t.internal_id === id);
       if (!track) {
         throw new Error('Track not found');
       }
@@ -62,7 +63,7 @@ const resolvers = {
     },
   },
   Mutation: {
-    createTrack: async (_: any, { name, artist_name }: Record<string, string>, { dataSources }: UserContext): Promise<Track> => {
+    createTrack: async (_: void, { name, artist_name }: Record<string, string>, { dataSources }: DataSources): Promise<Track> => {
       let existingTrack = mockDB.find(t => t.name === name && t.artist_name === artist_name);
       if (existingTrack) {
         return existingTrack;
@@ -79,7 +80,7 @@ const resolvers = {
       existingTrack = trackWithMetadata;
       return existingTrack;
     },
-    updateTrack: async (_: any, { internal_id, created_at, ...updates }: Track, { dataSources }: any): Promise<Track> => {
+    updateTrack: async (_: void, { internal_id, created_at, ...updates }: Track, { dataSources }: any): Promise<Track> => {
       const index = mockDB.findIndex(t => t.internal_id === internal_id);
       if (index === -1) {
         throw new GraphQLError('Track not found', {
@@ -88,13 +89,13 @@ const resolvers = {
           },
         });
       }
-      let updatedTrackData;
+      let updatedTrackData: Track | undefined;
       try {
         updatedTrackData = await dataSources.tracksAPI.getTrack(updates.name, updates.artist_name);
       } catch (error) {
         throw new Error('Failed to update track');
       }
-      const updatedTrack = {
+      const updatedTrack: Track = {
         ...mockDB[index],
         ...updatedTrackData,
         ...updates,
@@ -104,7 +105,7 @@ const resolvers = {
       mockDB = [...mockDB.slice(0, index), updatedTrack, ...mockDB.slice(index + 1)];
       return updatedTrack;
     },
-    deleteTrack: async (_: any, { internal_id }: { internal_id: string }): Promise<string> => {
+    deleteTrack: async (_: void, { internal_id }: { internal_id: string }): Promise<string> => {
       const index = mockDB.findIndex(t => t.internal_id === internal_id);
       if (index === -1) {
         throw new GraphQLError('Track not found', {

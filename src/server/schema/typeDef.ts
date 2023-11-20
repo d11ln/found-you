@@ -19,11 +19,8 @@ const typeDefs = `#graphql
     token: String!
   }
 
-  type UserContext {
-    user: User
-    # dataSources: {
-    #   tracksAPI: TracksAPI
-    # }: 
+  type TracksAPI {
+    getTrack(name: String, artist_name: String): Track
   }
 
   # The Query type defines the read-only operations available

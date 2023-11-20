@@ -19,10 +19,10 @@ const resolvers = {
             return track;
         },
         getAllTracks: async () => {
-            return mockDB;
+            return Promise.resolve(mockDB);
         },
-        getTrackById: async (_, { internal_id }, { mockDB }) => {
-            const track = mockDB.find(t => t.internal_id === internal_id);
+        getTrackById: async (_, { id }) => {
+            const track = mockDB.find(t => t.internal_id === id);
             if (!track) {
                 throw new Error('Track not found');
             }

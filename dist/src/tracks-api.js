@@ -13,7 +13,7 @@ class TracksAPI extends RESTDataSource {
         });
         if (data.data.length > 0) {
             const firstTrack = data.data[0];
-            // @ts-ignore -> TODO: Fix this
+            // @ts-expect-error -> TODO: Fix this
             return {
                 name: data.data.map(track => track.name),
                 artist_name: firstTrack.artists.map(artist => artist.name),

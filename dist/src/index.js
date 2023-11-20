@@ -8,9 +8,10 @@ import TracksAPI from './tracks-api.js';
 // Define a mockDB
 const mockDB = [];
 const JWT_SECRET = process.env.JWT_SECRET;
-const payload = {};
-// Generate a token
-const token = jwt.sign(payload, JWT_SECRET);
+// Uncomment to generate a token for use in the Authorization header for testing purposes
+// const payload = {}
+// const token = jwt.sign(payload, JWT_SECRET);
+// console.log(token);
 const server = new ApolloServer({
     typeDefs,
     resolvers,
@@ -26,7 +27,7 @@ async function getUser(token) {
     return new Promise((resolve, reject) => {
         jwt.verify(token, JWT_SECRET, (err, decoded) => {
             if (err) {
-                reject(new GraphQLError('Your session has expired, please refresh or enter a new token.', {
+                reject(new GraphQLError('Invalid token, please try again.', {
                     extensions: {
                         code: 'UNAUTHORIZED',
                     },
@@ -44,7 +45,13 @@ startStandaloneServer(server, {
         const token = req.headers.authorization || '';
         // Remove "Bearer " from token
         const actualToken = token.replace('Bearer ', '');
-        const user = await getUser(actualToken);
+        const user = await getUser(actualToken).catch((error) => {
+            throw new GraphQLError('Failed to authenticate: ' + error, {
+                extensions: {
+                    code: 'UNAUTHORIZED',
+                },
+            });
+        });
         return {
             user,
             mockDB,

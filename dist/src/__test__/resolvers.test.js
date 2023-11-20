@@ -6,7 +6,6 @@ describe('getTrackByName', () => {
         const dataSources = {
             tracksAPI: {
                 getTrack: jest.fn().mockImplementation((name, artist_name) => {
-                    console.log(`getTrack called with name: ${name}, artist_name: ${artist_name}`);
                     return Promise.resolve({ name, artist_name });
                 }),
             },
@@ -15,7 +14,6 @@ describe('getTrackByName', () => {
         const context = { dataSources };
         // Mock the resolver function
         const getTrackByName = jest.fn(async (_, { name, artist_name }, { dataSources }) => {
-            console.log(`getTrackByName called with name: ${name}, artist_name: ${artist_name}`);
             const track = await dataSources.tracksAPI.getTrack(name, artist_name);
             return {
                 ...track,
