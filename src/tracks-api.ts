@@ -11,13 +11,16 @@ interface ApiResponse {
 }
 
 interface Track {
-  name: string
-  duration_ms: number
-  track_number: number
-  isrc: string
-  artists: Artist[]
-  album: Album
-  type: string
+  name: string;
+  artist_name: string;
+  duration: number;
+  release_date: string;
+  ISRC: string;
+  internal_id: string;
+  created_at: string;
+  updated_at: string;
+  album: Album;
+  artists: Artist[];
 }
 
 interface Artist {
@@ -32,7 +35,7 @@ interface Album {
 class TracksAPI extends RESTDataSource {
   override baseURL = 'https://eu-api-v2.acrcloud.com/api/external-metadata/tracks/';
 
-  async getTrack(name: string, artist_name: string): Promise<typeof Track> {
+  async getTrack(name: string, artist_name: string): Promise<Track> {
     const query = `?query=${encodeURIComponent(name)}&artists=${encodeURIComponent(artist_name)}`;
     const data: ApiResponse = await this.get(query, {
       headers: {
@@ -41,16 +44,20 @@ class TracksAPI extends RESTDataSource {
     });
     if (data.data.length > 0) {
       const firstTrack = data.data[0];
-      // @ts-expect-error -> TODO: Fix this
       return {
-        name: data.data.map(track => track.name),
-        artist_name: firstTrack.artists.map(artist => artist.name),
-        duration: data.data.map(track => track.duration_ms),
+        name: firstTrack.name,
+        artist_name: firstTrack.artists.map(artist => artist.name).join(', '),
+        duration: firstTrack.duration,
         release_date: firstTrack.album.release_date,
-        ISRC: firstTrack.isrc
+        ISRC: firstTrack.ISRC,
+        internal_id: '',
+        created_at: '',
+        updated_at: '',
+        album: {name: '', release_date: ''},
+        artists: [],
       };
     } else {
-      return null; // TODO handle the case where no tracks are found
+      throw new Error('Track not found');
     }
   }
 }

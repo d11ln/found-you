@@ -1,5 +1,4 @@
 import { GraphQLError } from 'graphql';
-import UserContext from './typeDef';
 
 interface Track {
   name: string;
@@ -14,10 +13,6 @@ interface Track {
 
 let mockDB: Track[] = [];
 
-interface User {
-  token: string
-}
-
 interface TracksAPI {
   getTrack(name: string, artist_name: string): Promise<Track>
 }
@@ -27,11 +22,6 @@ interface DataSources {
     tracksAPI: TracksAPI
   } 
 }
-
-interface UserContext {
-  user: User
-}
-
 
 const resolvers = {
   Query: {

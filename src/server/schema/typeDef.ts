@@ -7,9 +7,9 @@ const typeDefs = `#graphql
   }
   # The Track type defines the structure for a track in our system
   extend type Track {
-    name: [String]
-    artist_name: [String]
-    duration: [Int]
+    name: String
+    artist_name: String
+    duration: Int
     ISRC: String
     release_date: String
   }

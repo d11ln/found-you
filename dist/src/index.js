@@ -61,5 +61,5 @@ startStandaloneServer(server, {
         };
     },
 }).then(({ url }) => {
-    console.log(`📀 tuning in at ${url}`);
+    console.log(`🔊 tuning in at ${url}`);
 });

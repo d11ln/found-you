@@ -1,5 +1,5 @@
 const typeDefs = `#graphql
-
+  # This is our base type
   type Track {
     internal_id: ID
     created_at: String
@@ -7,18 +7,18 @@ const typeDefs = `#graphql
   }
   # The Track type defines the structure for a track in our system
   extend type Track {
-    name: [String]
-    artist_name: [String]
-    duration: [Int]
+    name: String
+    artist_name: String
+    duration: Int
     ISRC: String
     release_date: String
   }
-
+  # The User type defines the structure for a user in our system
   type User {
     id: ID!
     token: String!
   }
-
+  # The TracksAPI type defines the structure for the tracksAPI in our system
   type TracksAPI {
     getTrack(name: String, artist_name: String): Track
   }
@@ -32,6 +32,7 @@ const typeDefs = `#graphql
 
   # The Mutation type defines the write operations available
   type Mutation {
+    # The createTrack mutation returns a Track type
     createTrack(
         internal_id: ID
         created_at: String
@@ -41,7 +42,7 @@ const typeDefs = `#graphql
         ISRC: String
         release_date: String
     ): Track
-
+    # The updateTrack mutation returns a Track type
     updateTrack(
         internal_id: ID
         updated_at: String
@@ -51,7 +52,7 @@ const typeDefs = `#graphql
         ISRC: String
         release_date: String
     ): Track
-    
+    # The deleteTrack mutation returns a String type
     deleteTrack(internal_id: ID!): String
   }
 `;

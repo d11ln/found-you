@@ -13,17 +13,21 @@ class TracksAPI extends RESTDataSource {
         });
         if (data.data.length > 0) {
             const firstTrack = data.data[0];
-            // @ts-expect-error -> TODO: Fix this
             return {
-                name: data.data.map(track => track.name),
-                artist_name: firstTrack.artists.map(artist => artist.name),
-                duration: data.data.map(track => track.duration_ms),
+                name: firstTrack.name,
+                artist_name: firstTrack.artists.map(artist => artist.name).join(', '),
+                duration: firstTrack.duration,
                 release_date: firstTrack.album.release_date,
-                ISRC: firstTrack.isrc
+                ISRC: firstTrack.ISRC,
+                internal_id: '',
+                created_at: '',
+                updated_at: '',
+                album: { name: '', release_date: '' },
+                artists: [],
             };
         }
         else {
-            return null; // TODO handle the case where no tracks are found
+            throw new Error('Track not found');
         }
     }
 }
