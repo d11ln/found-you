@@ -25,8 +25,11 @@ const typeDefs = `#graphql
 
   # The Query type defines the read-only operations available
   type Query {
+    # The getTrackByName query returns a Track type
     getTrackByName(name: String, artist_name: String): Track
+    # The getAllTracks query returns an array of Track types
     getAllTracks: [Track]
+    # The getTrackById query returns a Track type
     getTrackById(id: ID!): Track
   }
 
