@@ -1,6 +1,6 @@
-import { RESTDataSource } from '@apollo/datasource-rest';
-import dotenv from 'dotenv';
-import Track from './server/schema/typeDef';
+import { RESTDataSource } from '@apollo/datasource-rest'
+import dotenv from 'dotenv'
+import Track from './server/schema/typeDef'
 
 dotenv.config();
 
@@ -11,16 +11,16 @@ interface ApiResponse {
 }
 
 interface Track {
-  name: string;
-  artist_name: string;
-  duration: number;
-  release_date: string;
-  ISRC: string;
-  internal_id: string;
-  created_at: string;
-  updated_at: string;
-  album: Album;
-  artists: Artist[];
+  name: string
+  artist_name: string
+  duration: number
+  release_date: string
+  ISRC: string
+  internal_id: string
+  created_at: string
+  updated_at: string
+  album: Album
+  artists: Artist[]
 }
 
 interface Artist {

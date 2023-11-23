@@ -1,4 +1,4 @@
-import { GraphQLError } from 'graphql';
+import { GraphQLError } from 'graphql'
 
 interface Track {
   name: string;
@@ -11,6 +11,12 @@ interface Track {
   internal_id: string;
 }
 
+let mockDB: Track[] = [];
+
+interface User {
+  token: string
+}
+
 interface TracksAPI {
   getTrack(name: string, artist_name: string): Promise<Track>
 }
@@ -21,34 +27,29 @@ interface DataSources {
   } 
 }
 
-let mockDB: Map<string, Track> = new Map();
-
-const generateId = () => Math.random().toString(36).substring(2, 11);
-const getCurrentTimestamp = () => new Date().toISOString();
-
-
 const resolvers = {
   Query: {
     getTrackByName: async (_: void, { name, artist_name }: Record<string, string>, { dataSources }: DataSources): Promise<Track | undefined> => {
-      const track: Track | undefined = Array.from(mockDB.values()).find(t => t.name === name && t.artist_name === artist_name);
+      const track: Track = mockDB.find(t => t.name === name && t.artist_name === artist_name);
+      // check if track exists in mockDB
       if (!track) {
         const fetchedTrack = await dataSources.tracksAPI.getTrack(name, artist_name);
         const newTrack = {
           ...fetchedTrack,
-          internal_id: generateId(),
-          created_at: getCurrentTimestamp(),
-          updated_at: getCurrentTimestamp(),
+          internal_id: Math.random().toString(36).substring(2, 11), // Generate a random string for internal_id
+          created_at: new Date().toISOString(), // Current timestamp
+          updated_at: new Date().toISOString(), // Current timestamp
         };
-        mockDB.set(newTrack.internal_id, newTrack);
+        mockDB.push(newTrack); // Add the new track to the mockDB
         return newTrack;
       }
       return track;
     },
     getAllTracks: async (): Promise<Track[]> => {
-      return Array.from(mockDB.values());
+      return Promise.resolve(mockDB);
     },
     getTrackById: async (_: void, { id }: { id: string }): Promise<Track | undefined> => {
-      const track: Track | undefined = mockDB.get(id);
+      const track: Track = mockDB.find(t => t.internal_id === id);
       if (!track) {
         throw new Error('Track not found');
       }
@@ -57,25 +58,25 @@ const resolvers = {
   },
   Mutation: {
     createTrack: async (_: void, { name, artist_name }: Record<string, string>, { dataSources }: DataSources): Promise<Track> => {
-      let existingTrack = Array.from(mockDB.values()).find(t => t.name === name && t.artist_name === artist_name);
+      let existingTrack = mockDB.find(t => t.name === name && t.artist_name === artist_name);
       if (existingTrack) {
         return existingTrack;
       }
-      const internal_id = generateId();
+      const internal_id = Math.random().toString(36).substring(2, 11); // Generate a random string for internal_id
       const newTrack = await dataSources.tracksAPI.getTrack(name, artist_name);
       const trackWithMetadata = {
         internal_id,
         ...newTrack,
-        created_at: newTrack.created_at || getCurrentTimestamp(),
-        updated_at: getCurrentTimestamp(),
+        created_at: newTrack.created_at || new Date().toISOString(), // Keep existing created_at if it exists, else set current timestamp
+        updated_at: new Date().toISOString(), // Current timestamp
       };
-      mockDB.set(internal_id, trackWithMetadata);
+      mockDB.push(trackWithMetadata);
       existingTrack = trackWithMetadata;
       return existingTrack;
     },
-    updateTrack: async (_: void, { internal_id, created_at, ...updates }: Track, { dataSources }: any): Promise<Track> => {
-      const trackToUpdate = mockDB.get(internal_id);
-      if (!trackToUpdate) {
+    updateTrack: async (_: void, { internal_id, created_at, ...updates }: Track, { dataSources }: DataSources): Promise<Track> => {
+      const index = mockDB.findIndex(t => t.internal_id === internal_id);
+      if (index === -1) {
         throw new GraphQLError('Track not found', {
           extensions: {
             code: 'NOT_FOUND',
@@ -89,28 +90,28 @@ const resolvers = {
         throw new Error('Failed to update track');
       }
       const updatedTrack: Track = {
-        ...trackToUpdate,
+        ...mockDB[index],
         ...updatedTrackData,
         ...updates,
-        created_at: trackToUpdate.created_at, // Keep the original created_at
-        updated_at: getCurrentTimestamp(), // Update the timestamp
+        created_at: mockDB[index].created_at, // Keep the original created_at
+        updated_at: new Date().toISOString(), // Update the timestamp
       };
-      mockDB.set(internal_id, updatedTrack);
+      mockDB = [...mockDB.slice(0, index), updatedTrack, ...mockDB.slice(index + 1)];
       return updatedTrack;
     },
     deleteTrack: async (_: void, { internal_id }: { internal_id: string }): Promise<string> => {
-      const wasDeleted = mockDB.delete(internal_id);
-      if (!wasDeleted) {
+      const index = mockDB.findIndex(t => t.internal_id === internal_id);
+      if (index === -1) {
         throw new GraphQLError('Track not found', {
           extensions: {
             code: 'NOT_FOUND',
           },
         });
       }
+      mockDB = mockDB.filter(track => track.internal_id !== internal_id);
       return `Track with internal_id ${internal_id} deleted successfully`;
     },
-  }
+  },
 };
 
-
-export default resolvers;
+export default resolvers
