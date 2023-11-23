@@ -1,5 +1,7 @@
 import { GraphQLError } from 'graphql';
 let mockDB = [];
+// Generate a random string for internal_id
+const generateId = () => Math.random().toString(36).substring(2, 11);
 const resolvers = {
     Query: {
         getTrackByName: async (_, { name, artist_name }, { dataSources }) => {
@@ -9,7 +11,7 @@ const resolvers = {
                 const fetchedTrack = await dataSources.tracksAPI.getTrack(name, artist_name);
                 const newTrack = {
                     ...fetchedTrack,
-                    internal_id: Math.random().toString(36).substring(2, 11),
+                    internal_id: generateId(),
                     created_at: new Date().toISOString(),
                     updated_at: new Date().toISOString(), // Current timestamp
                 };
@@ -35,11 +37,10 @@ const resolvers = {
             if (existingTrack) {
                 return existingTrack;
             }
-            const internal_id = Math.random().toString(36).substring(2, 11); // Generate a random string for internal_id
             const newTrack = await dataSources.tracksAPI.getTrack(name, artist_name);
             const trackWithMetadata = {
-                internal_id,
                 ...newTrack,
+                internal_id: generateId(),
                 created_at: newTrack.created_at || new Date().toISOString(),
                 updated_at: new Date().toISOString(), // Current timestamp
             };
