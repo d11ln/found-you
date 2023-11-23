@@ -2,21 +2,15 @@ import { GraphQLError } from 'graphql';
 let mockDB = [];
 // Generate a random string for internal_id
 const generateId = () => Math.random().toString(36).substring(2, 11);
+const findTrack = (name, artist_name) => {
+    return mockDB.find(t => t.name.trim().toLowerCase() === name.trim().toLowerCase() && (!artist_name || t.artist_name.trim().toLowerCase() === artist_name.trim().toLowerCase()));
+};
 const resolvers = {
     Query: {
-        getTrackByName: async (_, { name, artist_name }, { dataSources }) => {
-            const track = mockDB.find(t => t.name === name && t.artist_name === artist_name);
-            // check if track exists in mockDB
+        getTrackByName: async (_, { name, artist_name }, context) => {
+            let track = findTrack(name, artist_name);
             if (!track) {
-                const fetchedTrack = await dataSources.tracksAPI.getTrack(name, artist_name);
-                const newTrack = {
-                    ...fetchedTrack,
-                    internal_id: generateId(),
-                    created_at: new Date().toISOString(),
-                    updated_at: new Date().toISOString(), // Current timestamp
-                };
-                mockDB.push(newTrack); // Add the new track to the mockDB
-                return newTrack;
+                track = await resolvers.Mutation.createTrack(_, { name, artist_name }, context);
             }
             return track;
         },
@@ -33,7 +27,7 @@ const resolvers = {
     },
     Mutation: {
         createTrack: async (_, { name, artist_name }, { dataSources }) => {
-            let existingTrack = mockDB.find(t => t.name === name && t.artist_name === artist_name);
+            let existingTrack = findTrack(name, artist_name);
             if (existingTrack) {
                 return existingTrack;
             }

@@ -27,21 +27,16 @@ let mockDB: Track[] = [];
 // Generate a random string for internal_id
 const generateId = (): string => Math.random().toString(36).substring(2, 11)
 
+const findTrack = (name: string, artist_name?: string): Track | undefined => {
+  return mockDB.find(t => t.name.trim().toLowerCase() === name.trim().toLowerCase() && (!artist_name || t.artist_name.trim().toLowerCase() === artist_name.trim().toLowerCase()));
+}
+
 const resolvers = {
   Query: {
-    getTrackByName: async (_: void, { name, artist_name }: Record<string, string>, { dataSources }: DataSources): Promise<Track | undefined> => {
-      const track: Track = mockDB.find(t => t.name === name && t.artist_name === artist_name);
-      // check if track exists in mockDB
+    getTrackByName: async (_: void, { name, artist_name }: Record<string, string>, context: DataSources): Promise<Track | undefined> => {
+      let track = findTrack(name, artist_name);
       if (!track) {
-        const fetchedTrack = await dataSources.tracksAPI.getTrack(name, artist_name);
-        const newTrack = {
-          ...fetchedTrack,
-          internal_id: generateId(), 
-          created_at: new Date().toISOString(), // Current timestamp
-          updated_at: new Date().toISOString(), // Current timestamp
-        };
-        mockDB.push(newTrack); // Add the new track to the mockDB
-        return newTrack;
+        track = await resolvers.Mutation.createTrack(_, { name, artist_name }, context);
       }
       return track;
     },
@@ -58,7 +53,7 @@ const resolvers = {
   },
   Mutation: {
     createTrack: async (_: void, { name, artist_name }: Record<string, string>, { dataSources }: DataSources): Promise<Track> => {
-      let existingTrack = mockDB.find(t => t.name === name && t.artist_name === artist_name);
+      let existingTrack = findTrack(name, artist_name);
       if (existingTrack) {
         return existingTrack;
       }
