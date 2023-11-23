@@ -13,10 +13,6 @@ interface Track {
 
 let mockDB: Track[] = [];
 
-interface User {
-  token: string
-}
-
 interface TracksAPI {
   getTrack(name: string, artist_name: string): Promise<Track>
 }
