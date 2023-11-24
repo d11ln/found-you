@@ -3,8 +3,8 @@ import { GraphQLError } from 'graphql'
 interface Track {
   name: string;
   artist_name: string;
-  duration: number;
-  ISRC: string;
+  duration_ms: number;
+  isrc: string;
   release_date: string;
   created_at: string;
   updated_at: string;

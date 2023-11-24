@@ -13,9 +13,9 @@ interface ApiResponse {
 interface Track {
   name: string
   artist_name: string
-  duration: number
+  duration_ms: number
   release_date: string
-  ISRC: string
+  isrc: string
   internal_id: string
   created_at: string
   updated_at: string
@@ -47,9 +47,9 @@ class TracksAPI extends RESTDataSource {
       return {
         name: firstTrack.name,
         artist_name: firstTrack.artists.map(artist => artist.name).join(', '),
-        duration: firstTrack.duration,
+        duration_ms: firstTrack.duration_ms,
         release_date: firstTrack.album.release_date,
-        ISRC: firstTrack.ISRC,
+        isrc: firstTrack.isrc,
         internal_id: '',
         created_at: '',
         updated_at: '',

@@ -9,8 +9,8 @@ const typeDefs = `#graphql
   extend type Track {
     name: String
     artist_name: String
-    duration: Int
-    ISRC: String
+    duration_ms: Int
+    isrc: String
     release_date: String
   }
   # The User type defines the structure for a user in our system
@@ -25,8 +25,11 @@ const typeDefs = `#graphql
 
   # The Query type defines the read-only operations available
   type Query {
+    # The getTrackByName query returns a Track type
     getTrackByName(name: String, artist_name: String): Track
+    # The getAllTracks query returns an array of Track types
     getAllTracks: [Track]
+    # The getTrackById query returns a Track type
     getTrackById(id: ID!): Track
   }
 
@@ -39,7 +42,7 @@ const typeDefs = `#graphql
         name: String!
         artist_name: String!
         duration: Int
-        ISRC: String
+        isrc: String
         release_date: String
     ): Track
     # The updateTrack mutation returns a Track type
@@ -49,7 +52,7 @@ const typeDefs = `#graphql
         name: String
         artist_name: String
         duration: Int
-        ISRC: String
+        isrc: String
         release_date: String
     ): Track
     # The deleteTrack mutation returns a String type

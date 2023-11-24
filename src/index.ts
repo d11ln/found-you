@@ -11,7 +11,6 @@ interface Track {
   artist_name: string;
 }
 
-
 // Define a mockDB
 const mockDB = [];
 const JWT_SECRET = process.env.JWT_SECRET;
