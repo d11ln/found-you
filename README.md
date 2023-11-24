@@ -47,7 +47,7 @@ this will run the tests with Jest.
     1. API key for ARCCloud, which you can obtain by signing up for an account,
     2. JWT Secret in the format `Bearer very-long-secure-secret-key` (please provide your own)
 
-* you'll also need to generate a JWT for the Authorization value in Apollo Studio, there's some code you can uncomment in `index.ts` to make one - this isn't how i'd do things in the Very Real World but it works for the use case
+* you'll also need to generate a JWT for the Authorization value in Apollo Studio, there's some code you can uncomment in `index.ts` to make one - this isn't how i'd do things in the Very Real World but it works for the use case. remember to run `docker build -t found-you .` again after uncommenting, otherwise the token won't be generated in the build. 
 
 * head over to `localhost/4000` to play around & please let me know what you think, there is plenty (plenty) of room for improvement but i had a ton of fun making this. 
 
